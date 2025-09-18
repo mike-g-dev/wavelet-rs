@@ -1,0 +1,12 @@
+[package]
+name = "examples"
+version = "0.0.0"
+edition = "2024"
+license = "MIT"
+
+[dev-dependencies]
+wavelet = { path = "../src", features = ["full"] }
+
+[[example]]
+name = "counter"
+path = "counter.rs"

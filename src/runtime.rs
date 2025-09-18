@@ -376,10 +376,14 @@ impl CycleOnce for Runtime<PrecisionClock, Sleep> {
         let duration = self
             .executor
             .next_timer()
-            .map(|when| (when.saturating_duration_since(now.instant)).min(self.mode.0));
-        self.executor
-            .cycle(now, duration)
-            .unwrap_or(ExecutorState::Running)
+            .map(|when| (when.saturating_duration_since(now.instant)).min(self.mode.0))
+            .unwrap_or(std::time::Duration::from(self.mode.0));
+
+        let state = self
+            .executor
+            .cycle(now, Some(duration))
+            .unwrap_or(ExecutorState::Running);
+        state
     }
 }
 
